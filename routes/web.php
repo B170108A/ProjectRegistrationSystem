@@ -16,5 +16,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::group(['middleware' => ['super-admin']], function () {
+    Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+});
+Route::get('/admin-dashboard', [AdminController::class, 'index'])
+    ->middleware('super-admin')
+    ->name('admin.dashboard');
+
 
 require __DIR__.'/auth.php';
