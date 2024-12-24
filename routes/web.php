@@ -4,6 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RegistrationPublicController;
+
+Route::get('/registrationpublic', [RegistrationPublicController::class, 'showRegistrationForm'])->name('registrationPublic.form');
+Route::post('/registrationpublic', [RegistrationPublicController::class, 'handleRegistration'])->name('registrationPublic.store');
+Route::get('/registrationpublic/success/{luckyDrawNumber}', [RegistrationPublicController::class, 'registrationSuccess'])->name('registrationPublic.success');
 
 Route::get('/', function () {
     return view('welcome');
