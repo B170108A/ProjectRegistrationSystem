@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Register;
+use App\Models\Login;
 use Illuminate\Http\Request;
 
-class RegisterController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,16 +18,10 @@ class RegisterController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    protected function create(array $data)
+    public function create()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'staff', // Assign default role
-        ]);
+        //
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +34,7 @@ class RegisterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Register $register)
+    public function show(Login $login)
     {
         //
     }
@@ -48,7 +42,7 @@ class RegisterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Register $register)
+    public function edit(Login $login)
     {
         //
     }
@@ -56,7 +50,7 @@ class RegisterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Register $register)
+    public function update(Request $request, Login $login)
     {
         //
     }
@@ -64,8 +58,21 @@ class RegisterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Register $register)
+    public function destroy(Login $login)
     {
         //
     }
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->role === 'super-admin') {
+            return redirect('/admin-dashboard');
+        } elseif ($user->role === 'admin') {
+            return redirect('/admin-dashboard');
+        } elseif ($user->role === 'staff') {
+            return redirect('/staff-dashboard');
+        }
+
+        return redirect('/home'); // Default redirect
+    }
+
 }

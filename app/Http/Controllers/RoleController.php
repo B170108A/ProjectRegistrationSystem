@@ -20,7 +20,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('roles.create');
     }
 
     /**
@@ -28,7 +28,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'role' => 'required|string|max:255|unique:roles',
+        ]);
+
+        // Save the role (if using a Role model or table)
+        // Example:
+        // Role::create(['name' => $request->role]);
+
+        return redirect()->back()->with('success', 'Role created successfully.');
     }
 
     /**
